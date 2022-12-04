@@ -1,46 +1,33 @@
 import throttle from 'lodash.throttle';
-
+const localStorageId = 'feedback-form-state';
 const form = document.querySelector('.feedback-form');
 const formInput = document.querySelector('.feedback-form input');
 const formTextarea = document.querySelector('.feedback-form textarea');
-const formInfo = {};
-const localStorageId = 'feedback-form-state';
-let parsedItems = {
-  email: '',
-  message: '',
-};
+const formInfo = { ...JSON.parse(localStorage.getItem(localStorageId)) };
 
-onFormRedact();
+let parsedItems = {};
+
+cheeckLocalStorage();
 
 form.addEventListener('input', throttle(onInputChange, 500));
-form.addEventListener('submit', event => {
+
+form.addEventListener('submit', onFormSubmit);
+const onFormSubmit = event => {
   event.preventDefault();
-  console.log(JSON.parse(localStorage.getItem(localStorageId)));
+  form.reset();
+  console.log(localStorage.getItem(localStorageId));
   localStorage.removeItem(localStorageId);
-  event.currentTarget.reset();
-});
-function onInputChange(event) {
+};
+
+const onInputChange = event => {
   formInfo[event.target.name] = event.target.value;
   localStorage.setItem(localStorageId, JSON.stringify(formInfo));
-}
+};
 
-function onFormRedact() {
+const cheeckLocalStorage = () => {
   if (localStorage.getItem(localStorageId)) {
     parsedItems = JSON.parse(localStorage.getItem(localStorageId));
-  } else {
-    parsedItems = {
-      email: '',
-      message: '',
-    };
+    formInput.value = parsedItems.email ? parsedItems.email : '';
+    formTextarea.value = parsedItems.message ? parsedItems.message : '';
   }
-  if (parsedItems.email !== undefined && parsedItems.email !== null) {
-    formInput.value = parsedItems.email;
-  } else {
-    formInput.value = '';
-  }
-  if (parsedItems.message !== undefined && parsedItems.message !== null) {
-    formTextarea.value = parsedItems.message;
-  } else {
-    formTextarea.value = '';
-  }
-}
+};
