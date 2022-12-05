@@ -7,11 +7,6 @@ const formInfo = { ...JSON.parse(localStorage.getItem(localStorageId)) };
 
 let parsedItems = {};
 
-cheeckLocalStorage();
-
-form.addEventListener('input', throttle(onInputChange, 500));
-
-form.addEventListener('submit', onFormSubmit);
 const onFormSubmit = event => {
   event.preventDefault();
   form.reset();
@@ -31,3 +26,6 @@ const cheeckLocalStorage = () => {
     formTextarea.value = parsedItems.message ? parsedItems.message : '';
   }
 };
+form.addEventListener('input', throttle(onInputChange, 500));
+cheeckLocalStorage();
+form.addEventListener('submit', onFormSubmit);

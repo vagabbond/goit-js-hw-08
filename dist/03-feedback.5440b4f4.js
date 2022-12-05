@@ -514,9 +514,6 @@ const formInfo = {
     ...JSON.parse(localStorage.getItem(localStorageId))
 };
 let parsedItems = {};
-cheeckLocalStorage();
-form.addEventListener("input", (0, _lodashThrottleDefault.default)(onInputChange, 500));
-form.addEventListener("submit", onFormSubmit);
 const onFormSubmit = (event)=>{
     event.preventDefault();
     form.reset();
@@ -534,6 +531,9 @@ const cheeckLocalStorage = ()=>{
         formTextarea.value = parsedItems.message ? parsedItems.message : "";
     }
 };
+form.addEventListener("input", (0, _lodashThrottleDefault.default)(onInputChange, 500));
+cheeckLocalStorage();
+form.addEventListener("submit", onFormSubmit);
 
 },{"lodash.throttle":"bGJVT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bGJVT":[function(require,module,exports) {
 var global = arguments[3];
